@@ -93,7 +93,7 @@ inline void separator(Screen& g, int row, int col, int w, Theme& theme) {
 // ============================================================
 // Key hints — footer bar
 // ============================================================
-inline void key_hints(Screen& g, int row, int col, int w,
+inline void key_hints(Screen& g, int row, int col, int /*w*/,
                       const std::vector<std::pair<std::string, std::string>>& hints,
                       Theme& theme) {
     Style key_s; key_s.fg = theme.accent; key_s.bold = true;

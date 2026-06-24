@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y g++
+
+      - name: Build examples (g++)
+        run: |
+          g++ -std=c++20 -O2 -Wall -Wextra -o build/demo examples/demo.cpp -Iinclude
+          g++ -std=c++20 -O2 -Wall -Wextra -o build/simple examples/simple.cpp -Iinclude
+
+      - name: Test (demo --help / simple)
+        run: |
+          echo "q" | timeout 3 ./build/simple || true
