@@ -193,10 +193,12 @@ inline void radio_group(Screen& g,
 inline bool input(Screen& g,
                   std::string_view label,
                   std::string& value,
-                  int row, int col, int width, Key key, Theme& theme) {
+                  int row, int col, int width, Key key, Theme& theme,
+                  bool focused = true) {
     auto id = detail::hash_ptr(&value);
     auto& st = detail::get_state(id);
 
+    if (!focused) { key = Key_none; }
     st.cursor = detail::clamp(st.cursor, 0, (int)value.size());
 
     // Handle key
@@ -239,11 +241,13 @@ inline bool input(Screen& g,
     for (int i = (int)visible.size(); i < field_w; i++)
         g.put(row, field_col + i, U' ', text_s);
 
-    // Cursor
-    int cursor_vis = st.cursor - visible_start;
-    if (cursor_vis >= 0 && cursor_vis < field_w) {
-        char32_t ch = (cursor_vis < (int)visible.size()) ? (unsigned char)visible[cursor_vis] : U' ';
-        g.put(row, field_col + cursor_vis, ch, cursor_s);
+    // Cursor (only shown when focused)
+    if (focused) {
+        int cursor_vis = st.cursor - visible_start;
+        if (cursor_vis >= 0 && cursor_vis < field_w) {
+            char32_t ch = (cursor_vis < (int)visible.size()) ? (unsigned char)visible[cursor_vis] : U' ';
+            g.put(row, field_col + cursor_vis, ch, cursor_s);
+        }
     }
 
     return key == Key_enter;
