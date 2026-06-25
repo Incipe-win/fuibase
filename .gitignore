@@ -1,3 +1,11 @@
 build/
 compile_commands.json
 .xmake/
+
+# IDE / editors
+.vscode/
+.idea/
+.cache/
+*.swp
+*.swo
+*~
