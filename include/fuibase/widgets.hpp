@@ -147,15 +147,20 @@ inline void progress_bar(Screen& g, float pct, int row, int col, int width, Them
 // Checkbox — [x] / [ ] toggle. Returns true if toggled this frame.
 // ============================================================
 inline bool checkbox(Screen& g, std::string_view label, bool& value,
-                     int row, int col, Key key, Theme& theme) {
+                     int row, int col, Key key, Theme& theme,
+                     bool focused = true) {
     Style box_s;  box_s.fg = value ? theme.success : theme.text_dim;
     Style text_s; text_s.fg = theme.text;
-    Style focus; focus.fg = theme.primary;
+    Style focus_s; focus_s.fg = theme.accent; focus_s.bold = true;
 
-    // Draw
+    // Draw — when focused, highlight the box and label
     std::string box = value ? "[✓]" : "[ ]";
-    g.text(row, col, box, box_s);
-    if (label.data()) g.text(row, col + 4, label, text_s);
+    if (focused) {
+        g.text(row, col, "▶", focus_s);
+        box_s = focused ? Style{theme.text, {}, true} : box_s;
+    }
+    g.text(row, col + 2, box, focused ? focus_s : box_s);
+    if (label.data()) g.text(row, col + 6, label, focused ? focus_s : text_s);
 
     // Handle
     if (key == Key_space || key == Key_enter) {
