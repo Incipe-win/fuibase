@@ -309,7 +309,7 @@ inline int select_list(Screen& g,
 inline bool button(Screen& g, std::string_view label, int row, int col,
                    Key key, Theme& theme, bool is_focused = false) {
     Style btn_s;
-    if (is_focused) { btn_s.fg = Color::hex(0x1a1b26); btn_s.bg = theme.primary; btn_s.bold = true; }
+    if (is_focused) { btn_s.fg = theme.bg; btn_s.bg = theme.primary; btn_s.bold = true; }
     else            { btn_s.fg = theme.primary; btn_s.bold = true; }
 
     int w = (int)label.size() + 4;  // padding: [ Label ]
