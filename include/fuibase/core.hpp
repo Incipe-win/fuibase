@@ -90,6 +90,7 @@ struct Style {
     bool italic    : 1 = false;
     bool underline : 1 = false;
     bool reverse   : 1 = false;
+    bool blink     : 1 = false;
 
     static constexpr Style none() { return {}; }
 
@@ -102,7 +103,7 @@ struct Style {
         return fg == o.fg && bg == o.bg
             && bold == o.bold && dim == o.dim
             && italic == o.italic && underline == o.underline
-            && reverse == o.reverse;
+            && reverse == o.reverse && blink == o.blink;
     }
 };
 
@@ -341,6 +342,7 @@ private:
         if (s.italic)    e += ";3";
         if (s.underline) e += ";4";
         if (s.reverse)   e += ";7";
+        if (s.blink)     e += ";5";
         if (!s.fg.is_default) { e += ";38;2;" + std::to_string(s.fg.r) + ";" + std::to_string(s.fg.g) + ";" + std::to_string(s.fg.b); }
         if (!s.bg.is_default) { e += ";48;2;" + std::to_string(s.bg.r) + ";" + std::to_string(s.bg.g) + ";" + std::to_string(s.bg.b); }
         e += "m";

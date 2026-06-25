@@ -229,7 +229,7 @@ inline bool input(Screen& g,
     // Draw
     Style label_s; label_s.fg = theme.text_dim;
     Style text_s;  text_s.fg = theme.text;
-    Style cursor_s; cursor_s.reverse = true; cursor_s.bg = theme.primary; cursor_s.fg = Color::hex(0x1a1b26);
+    Style cursor_s; cursor_s.bg = theme.accent; cursor_s.fg = theme.bg; cursor_s.bold = true; cursor_s.blink = true;
 
     g.text(row, col, label, label_s);
     int field_col = col + (int)label.size() + 1;
